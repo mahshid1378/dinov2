@@ -618,3 +618,27 @@ If you find this repository useful, please consider giving a star :star: and cit
   year={2023}
 }
 ```
+
+I have been studying the dinov2 model for some time and I am glad that I came across this Facebook repository. However, while implementing the model, I also encountered the following challenges, which I will explain in detail below.
+
+Challenge 1: I encountered a problem in installing dependencies and incompatible versions of libraries, which I fixed as follows. In the first step, I used a virtual environment to install the libraries.‍‍‍
+```shell
+python -m venv dinov2_env
+source dinov2_env/bin/activate # On Windows: dinov2_env\Scripts\activate
+
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install -r requirements.txt
+
+pip check
+```
+
+Challenge 2: CUDA error occurred while running the model on GPU. I fixed it as follows.
+```shell
+python -c "import torch; print(torch.cuda.is_available())"
+```
+If False is returned, CUDA is not installed properly or your GPU is not supported.
+Reduce GPU memory usage-Use mixed precision mode-model.half() # Reduce memory requirements-Run model in smaller batch size:
+python run_model.py --batch_size 4 # Default value may be large
+```shell
+python run_model.py --device cpu
+```
